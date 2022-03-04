@@ -10,19 +10,21 @@ package binarySearchTree;
  */
 
 public class binaryTree {
+    public static void main(String[] args) {
+    }
     private Node root;
 
     public binaryTree() { //Constructor for BST
         root = null;
     }
-    public Node find(int insertData, int key) {
+    public Node find(int key) {
         Node current = root;
-        while (current.getKey() != key) {
-            if (key < current.getKey()) {
-                current = current.getLeftChild();
+        while (current.keyData != key) {
+            if (key < current.keyData) {
+                current = current.leftChild;
             }
             else {
-                current = current.getRightChild();
+                current = current.rightChild;
             }
             if (current == null) {
                 return null;
@@ -31,7 +33,29 @@ public class binaryTree {
         return current;
     }
 
-    public void insert(Node root, int key) {
+    public void insert(int insertKey, int inserData) {
         Node nextNode = new Node();
+        nextNode.keyData = insertKey;
+        nextNode.data = inserData;
+        if (root == null) {
+            root = nextNode;
+        }
+        else {
+            Node current = root;
+            while (true) {
+                Node parent = current;
+                if (insertKey < current.keyData) {
+                    parent.leftChild = nextNode;
+                    return;
+                }
+                else {
+                    current = current.rightChild;
+                    if (current == null) {
+                        parent.rightChild = nextNode;
+                        return;
+                    }
+                }
+            }
+        }
     }
 }
