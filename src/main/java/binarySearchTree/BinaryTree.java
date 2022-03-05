@@ -9,18 +9,17 @@ package binarySearchTree;
  (предок, левый потомок, правый потомок).
  */
 
-public class binaryTree {
-    public static void main(String[] args) {
-    }
+public class BinaryTree {
 
     Node root;
 
-    public binaryTree() { //Constructor for BST
+    public BinaryTree() { //Constructor for BST
         root = null;
     }
 
     public Node find(int key) {
         Node current = root;
+
         while (current.key != key) {
             if (key < current.key) {
                 current = current.leftChild;
@@ -36,8 +35,7 @@ public class binaryTree {
 
     public void insert(int key, int data) {
         Node nextNode = new Node(key, data);
-        //nextNode.key = key;
-        //nextNode.data = data;
+
         if (root == null) {
             root = nextNode;
         } else {
@@ -67,7 +65,7 @@ public class binaryTree {
         Node parent = root;
 
         boolean isLeft = true;
-        while (current.key != key) {
+        while (current.key != key) {      //search
             parent = current;
 
             if (key < current.key) {
@@ -105,16 +103,13 @@ public class binaryTree {
             } else {
                 parent.rightChild = current.leftChild;
             }
-        }
-        else {
+        } else {      //two child
             Node toMove = getMove(current);
             if (current == root) {
                 root = toMove;
-            }
-            else if (isLeft == true) {
+            } else if (isLeft == true) {
                 parent.leftChild = toMove;
-            }
-            else {
+            } else {
                 parent.rightChild = toMove;
             }
             toMove.leftChild = current.leftChild;
@@ -127,7 +122,7 @@ public class binaryTree {
         Node toMove = movedNode;
         Node current = movedNode.rightChild;
 
-        while (current != null){
+        while (current != null) {
             moveParent = toMove;
             toMove = current;
             current = current.leftChild;
