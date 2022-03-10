@@ -1,17 +1,13 @@
 package binarySearchTree;
 
+import java.util.LinkedList;
+
 public class Node {
     public int key;
-    public int data;
     public Node rightChild;
     public Node leftChild;
 
-    Node(int key, int data) {
+    Node(int key) {
         this.key = key;
-        this.data = data;
-    }
-
-    public void nodePrint() {
-        System.out.println("Node value:" + key);
     }
 }

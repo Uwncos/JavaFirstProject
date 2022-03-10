@@ -8,10 +8,11 @@ package binarySearchTree;
  определение соседей числа в дереве
  (предок, левый потомок, правый потомок).
  */
-
+import java.util.*;
 public class BinaryTree {
 
     Node root;
+    LinkedList<Integer> nodes = new LinkedList<>();
 
     public BinaryTree() { //Constructor for BST
         root = null;
@@ -33,9 +34,14 @@ public class BinaryTree {
         return current;
     }
 
-    public void insert(int key, int data) {
-        Node nextNode = new Node(key, data);
-
+    public void insert(int key) {
+        Node nextNode = new Node(key);
+        if (!nodes.contains(key)) {
+            nodes.add(key);
+        }
+        else {
+            throw new IllegalArgumentException();
+        }
         if (root == null) {
             root = nextNode;
         } else {
@@ -46,7 +52,7 @@ public class BinaryTree {
                 if (key < current.key) {
                     current = current.leftChild;
                     if (current == null) {
-                        parent.rightChild = nextNode;
+                        parent.leftChild = nextNode;
                         return;
                     }
                 } else {
@@ -82,7 +88,7 @@ public class BinaryTree {
         if (current.rightChild == null && current.leftChild == null) { //Node Is A Leaf Node
             if (current == root) {
                 root = null;
-            } else if (isLeft == true) {
+            } else if (isLeft) {
                 parent.leftChild = null;
             } else {
                 parent.rightChild = null;
@@ -90,7 +96,7 @@ public class BinaryTree {
         } else if (current.rightChild == null) {
             if (current == root) {
                 root = current.leftChild;
-            } else if (isLeft == true) {
+            } else if (isLeft) {
                 parent.leftChild = current.leftChild;
             } else {
                 parent.rightChild = current.leftChild;
@@ -98,7 +104,7 @@ public class BinaryTree {
         } else if (current.leftChild == null) {
             if (current == root) {
                 root = current.rightChild;
-            } else if (isLeft == true) {
+            } else if (isLeft) {
                 parent.leftChild = current.rightChild;
             } else {
                 parent.rightChild = current.leftChild;
@@ -107,7 +113,7 @@ public class BinaryTree {
             Node toMove = getMove(current);
             if (current == root) {
                 root = toMove;
-            } else if (isLeft == true) {
+            } else if (isLeft) {
                 parent.leftChild = toMove;
             } else {
                 parent.rightChild = toMove;
@@ -132,6 +138,15 @@ public class BinaryTree {
             toMove.rightChild = movedNode.rightChild;
         }
         return toMove;
+    }
+
+    public void inOrder (Node localRoot) {
+        LinkedList<Integer> nodesList = new LinkedList<>();
+        if (localRoot != null) {
+            inOrder(localRoot.leftChild);
+            nodesList.add(localRoot.key);
+            inOrder(localRoot.rightChild);
+        }
     }
 }
 
