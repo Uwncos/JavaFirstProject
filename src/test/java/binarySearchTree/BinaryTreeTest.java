@@ -56,6 +56,7 @@ class BinaryTreeTest {
         newTree.insert(3);
         newTree.insert(8);
         newTree.insert(1);
+        newTree.insert(8);
         assertEquals(List.of(2, 1, 0, 0), newTree.neighbours(1));
     }
 }
