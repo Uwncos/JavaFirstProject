@@ -30,7 +30,7 @@ class BinaryTreeTest {
         assertEquals(new Node(9).key, newTree.find(9).key);
         newTree.insert(5);
         assertEquals(new Node(5).key, newTree.find(5).key);
-        newTree.insert(8);                                        //illegalArgument test
+        newTree.insert(8);                                        //illegalArgument test (double keys)
         newTree.delete(5);
         newTree.delete(8);
         assertNull(newTree.find(8));
