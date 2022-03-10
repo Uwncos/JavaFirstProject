@@ -38,8 +38,6 @@ public class BinaryTree {
     public LinkedList<Integer> neighbours(int key) {
         Node current = root;
         Node parent = null;
-        Node leftChild = null;
-        Node rightChild = null;
 
         while (current.key != key) {
             parent = current;
@@ -88,6 +86,7 @@ public class BinaryTree {
         else {
             throw new IllegalArgumentException();
         }
+
         if (root == null) {
             root = nextNode;
         } else {
@@ -166,6 +165,7 @@ public class BinaryTree {
             }
             toMove.leftChild = current.leftChild;
         }
+        nodes.remove((Integer) key);
         return true;
     }
 
@@ -186,14 +186,6 @@ public class BinaryTree {
         return toMove;
     }
 
-    public void inOrder (Node localRoot) {
-        LinkedList<Integer> nodesList = new LinkedList<>();
-        if (localRoot != null) {
-            inOrder(localRoot.leftChild);
-            nodesList.add(localRoot.key);
-            inOrder(localRoot.rightChild);
-        }
-    }
 }
 
 
