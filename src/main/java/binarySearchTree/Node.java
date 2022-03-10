@@ -1,6 +1,5 @@
 package binarySearchTree;
 
-import java.util.LinkedList;
 
 public class Node {
     public int key;

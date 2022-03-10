@@ -1,5 +1,6 @@
 package binarySearchTree;
 
+import java.util.*;
 /*
 Вариант 12 -- бинарное дерево поиска
 Хранит целые числа в виде бинарного дерева поиска.
@@ -8,7 +9,7 @@ package binarySearchTree;
  определение соседей числа в дереве
  (предок, левый потомок, правый потомок).
  */
-import java.util.*;
+
 public class BinaryTree {
 
     Node root;
@@ -33,6 +34,51 @@ public class BinaryTree {
         }
         return current;
     }
+
+    public LinkedList<Integer> neighbours(int key) {
+        Node current = root;
+        Node parent = null;
+        Node leftChild = null;
+        Node rightChild = null;
+
+        while (current.key != key) {
+            parent = current;
+            if (key < current.key) {
+                current = current.leftChild;
+            } else {
+                current = current.rightChild;
+            }
+            if (current == null) {
+                return null;
+            }
+        }
+        LinkedList<Integer> nodeNeighbours = new LinkedList<>();
+
+        if (parent != null) {
+            nodeNeighbours.add(parent.key);
+        }
+        else {
+            nodeNeighbours.add(0);
+        }
+
+        nodeNeighbours.add(current.key);
+
+        if (current.leftChild != null) {
+            nodeNeighbours.add(current.leftChild.key);
+        }
+        else {
+            nodeNeighbours.add(0);
+        }
+        if (current.rightChild != null) {
+            nodeNeighbours.add(current.rightChild.key);
+        }
+        else {
+            nodeNeighbours.add(0);
+        }
+        return nodeNeighbours;
+    }
+
+
 
     public void insert(int key) {
         Node nextNode = new Node(key);
