@@ -1,8 +1,6 @@
 package binarySearchTree;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import java.util.LinkedList;
 import static org.junit.jupiter.api.Assertions.*;
 import java.util.List;
 
@@ -21,6 +19,7 @@ class BinaryTreeTest {
         newTree.delete(5);
         newTree.delete(8);
         assertNull(newTree.find(8));                              //delete test
+        newTree.delete(8);                                        //second delete test
     }
 
 
