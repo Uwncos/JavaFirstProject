@@ -1,6 +1,7 @@
 package binarySearchTree;
 
 import java.util.*;
+
 /*
 Вариант 12 -- бинарное дерево поиска
 Хранит целые числа в виде бинарного дерева поиска.
@@ -53,10 +54,10 @@ public class BinaryTree {
         LinkedList<Integer> nodeNeighbours = new LinkedList<>();
 
         if (parent != null) {
-            nodeNeighbours.add(parent.key);
+            nodeNeighbours.add(parent.key);  //если есть ставим key
         }
         else {
-            nodeNeighbours.add(0);
+            nodeNeighbours.add(0);           //если нет, ставим 0
         }
 
         nodeNeighbours.add(current.key);
@@ -84,7 +85,11 @@ public class BinaryTree {
             nodes.add(key);
         }
         else {
-            throw new IllegalArgumentException();
+            try {
+                throw new IllegalArgumentException();
+            } catch (IllegalArgumentException exception) {
+                return;
+            }
         }
 
         if (root == null) {
