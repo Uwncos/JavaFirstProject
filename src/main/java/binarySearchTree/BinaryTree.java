@@ -12,9 +12,8 @@ import java.util.*;
  */
 
 public class BinaryTree {
+    private Node root;
 
-    Node root;
-    LinkedList<Integer> nodes = new LinkedList<>();
 
     public BinaryTree() { //Constructor for BST
         root = null;
@@ -22,12 +21,11 @@ public class BinaryTree {
 
     public Node find(int key) {
         Node current = root;
-
-        while (current.key != key) {
-            if (key < current.key) {
-                current = current.leftChild;
+        while (current.getKey() != key) {
+            if (key < current.getKey()) {
+                current = current.getLeftChild();
             } else {
-                current = current.rightChild;
+                current = current.getRightChild();
             }
             if (current == null) {
                 return null;
@@ -36,79 +34,70 @@ public class BinaryTree {
         return current;
     }
 
-    public LinkedList<Integer> neighbours(int key) {
+    public List<String> neighbours(int key) {
         Node current = root;
         Node parent = null;
 
-        while (current.key != key) {
+        while (current.getKey() != key) {
             parent = current;
-            if (key < current.key) {
-                current = current.leftChild;
+            if (key < current.getKey()) {
+                current = current.getLeftChild();
             } else {
-                current = current.rightChild;
+                current = current.getRightChild();
             }
             if (current == null) {
                 return null;
             }
         }
-        LinkedList<Integer> nodeNeighbours = new LinkedList<>();
+        LinkedList<String> nodeNeighbours = new LinkedList<>();
 
         if (parent != null) {
-            nodeNeighbours.add(parent.key);  //если есть ставим key
-        }
-        else {
-            nodeNeighbours.add(0);           //если нет, ставим 0
+            nodeNeighbours.add("" + parent.getKey());  //если есть ставим key
+        } else {
+            nodeNeighbours.add("empty");           //если нет, ставим 0
         }
 
-        nodeNeighbours.add(current.key);
+        nodeNeighbours.add("" + current.getKey());
 
-        if (current.leftChild != null) {
-            nodeNeighbours.add(current.leftChild.key);
+        if (current.getLeftChild() != null) {
+            int a = current.getLeftChild().getKey();
+            nodeNeighbours.add("" + a);
+        } else {
+            nodeNeighbours.add("empty");
         }
-        else {
-            nodeNeighbours.add(0);
-        }
-        if (current.rightChild != null) {
-            nodeNeighbours.add(current.rightChild.key);
-        }
-        else {
-            nodeNeighbours.add(0);
+        if (current.getRightChild() != null) {
+            nodeNeighbours.add("" + current.getRightChild().getKey());
+        } else {
+            nodeNeighbours.add("empty");
         }
         return nodeNeighbours;
     }
 
 
-
     public void insert(int key) {
-        Node nextNode = new Node(key);
-        if (!nodes.contains(key)) {
-            nodes.add(key);
-        }
-        else {
-            try {
-                throw new IllegalArgumentException();
-            } catch (IllegalArgumentException exception) {
-                return;
-            }
-        }
+        Node nextNode = new Node();
+        nextNode.setKey(key);
 
         if (root == null) {
             root = nextNode;
         } else {
             Node current = root;
             Node parent;
+            if (find(key) != null) {
+                return;
+            }
             while (true) {
                 parent = current;
-                if (key < current.key) {
-                    current = current.leftChild;
+                if (key < current.getKey()) {
+                    current = current.getLeftChild();
                     if (current == null) {
-                        parent.leftChild = nextNode;
+                        parent.setLeftChild(nextNode);
                         return;
                     }
                 } else {
-                    current = current.rightChild;
+                    current = current.getRightChild();
                     if (current == null) {
-                        parent.rightChild = nextNode;
+                        parent.setRightChild(nextNode);
                         return;
                     }
                 }
@@ -121,74 +110,83 @@ public class BinaryTree {
         Node parent = root;
 
         boolean isLeft = true;
-        while (current.key != key) {      //search
+
+        if (key < current.getKey()) {
+        } else {
+            isLeft = false;
+        }
+        if (current == null) {
+            return false;
+        }
+        while (current.getKey() != key) {      //search
             parent = current;
 
-            if (key < current.key) {
+            if (key < current.getKey()) {
                 isLeft = true;
-                current = current.leftChild;
+                current = current.getLeftChild();
             } else {
                 isLeft = false;
-                current = current.rightChild;
+                current = current.getRightChild();
             }
             if (current == null) {
                 return false;
             }
         }
-        if (current.rightChild == null && current.leftChild == null) { //Node Is A Leaf Node
+        if (current.getRightChild() == null && current.getLeftChild() == null) { //Node Is A Leaf Node
             if (current == root) {
                 root = null;
             } else if (isLeft) {
-                parent.leftChild = null;
+                parent.setLeftChild(null);
             } else {
-                parent.rightChild = null;
+                parent.setRightChild(null);
             }
-        } else if (current.rightChild == null) {
+        } else if (current.getRightChild() == null) {
             if (current == root) {
-                root = current.leftChild;
+                root = current.getLeftChild();
             } else if (isLeft) {
-                parent.leftChild = current.leftChild;
+                parent.setLeftChild(current.getLeftChild());
             } else {
-                parent.rightChild = current.leftChild;
+                parent.setRightChild(current.getLeftChild());
             }
-        } else if (current.leftChild == null) {
+        } else if (current.getLeftChild() == null) {
             if (current == root) {
-                root = current.rightChild;
+                root = current.getRightChild();
             } else if (isLeft) {
-                parent.leftChild = current.rightChild;
+                parent.setLeftChild(current.getRightChild());
             } else {
-                parent.rightChild = current.leftChild;
+                parent.setLeftChild(current.getRightChild());
             }
         } else {      //two child
-            Node toMove = getMove(current);
+            Node successor = getSuccessor(current);
             if (current == root) {
-                root = toMove;
+                root = successor;
             } else if (isLeft) {
-                parent.leftChild = toMove;
+                parent.setLeftChild(successor);
             } else {
-                parent.rightChild = toMove;
+                parent.setRightChild(successor);
             }
-            toMove.leftChild = current.leftChild;
+            successor.setLeftChild(current.getLeftChild());
         }
-        nodes.remove((Integer) key);
         return true;
     }
-
-    public Node getMove(Node movedNode) {
-        Node moveParent = movedNode;
-        Node toMove = movedNode;
-        Node current = movedNode.rightChild;
+    //достает след. значение после входного
+    //идет сначала 1 раз направо, затем налево от всех узлов
+    //так мы максимально приблизимся к удаляемому справа
+    Node getSuccessor(Node heir) {
+        Node successorParent = heir;
+        Node successor = heir;
+        Node current = heir.getRightChild();
 
         while (current != null) {
-            moveParent = toMove;
-            toMove = current;
-            current = current.leftChild;
+            successorParent = successor;
+            successor = current;
+            current = current.getLeftChild();
         }
-        if (toMove != movedNode.rightChild) {
-            moveParent.leftChild = toMove.rightChild;
-            toMove.rightChild = movedNode.rightChild;
+        if (successor != heir.getRightChild()) {
+            successorParent.setRightChild(successor.getRightChild());
+            successor.setRightChild(heir.getRightChild());
         }
-        return toMove;
+        return successor;
     }
 
 }
