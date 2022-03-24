@@ -99,4 +99,27 @@ class BinaryTreeTest {
         newTree.insert(8);
         assertEquals(List.of("2", "1", "empty", "empty"), newTree.neighbours(1));
     }
+
+    @Test
+    void testEquals() {
+        BinaryTree newTree1 = new BinaryTree();
+        BinaryTree newTree2 = new BinaryTree();
+        newTree1.insert(2);
+        newTree1.insert(7);
+        newTree1.insert(1);
+        newTree1.insert(3);
+        newTree1.insert(8);
+        newTree1.insert(1);
+        newTree1.insert(8);
+        newTree2.insert(2);
+        newTree2.insert(7);
+        newTree2.insert(1);
+        newTree2.insert(3);
+        newTree2.insert(8);
+        newTree2.insert(1);
+        newTree2.insert(8);
+        assertEquals(true, newTree1.equals(newTree2));
+        newTree1.delete(1);
+        assertEquals(false, newTree1.equals(newTree2));
+    }
 }
