@@ -169,7 +169,8 @@ public class BinaryTree {
         }
         return true;
     }
-    //достает след. значение после входного
+
+    // достает след. значение после входного
     //идет сначала 1 раз направо, затем налево от всех узлов
     //так мы максимально приблизимся к удаляемому справа
     Node getSuccessor(Node heir) {
@@ -190,37 +191,43 @@ public class BinaryTree {
     }
 
 
-//    @Override
-//    public int hashCode() {
-//        int result =
-//        return result;
-//    }
-
-    public boolean equals(Object o) {
-        if (this.getClass() != o.getClass()) {
+    @Override
+    public boolean equals(Object object) {
+        if (this == object) {
+            return true;
+        }
+        if (this.getClass() != object.getClass() || object == null) {
             return false;
         }
-        BinaryTree other = (BinaryTree) o;
-        List array1 = treeToList(this.root);
-        List array2 = treeToList(other.root);
+        BinaryTree other = (BinaryTree) object;
+        List<Integer> array1 = treeToList(this.root);
+        List<Integer> array2 = treeToList(other.root);
         return array1.equals(array2);
     }
 
-    public static List<Integer> treeToList(Node n) {
+    static List<Integer> treeToList(Node n) {
 
         List<Integer> result = new ArrayList<>();
         if (n.getLeftChild() != null) {
             result.addAll(treeToList(n.getLeftChild()));
         }
-
         if (n.getRightChild() != null) {
             result.addAll(treeToList(n.getRightChild()));
         }
-
         result.add(n.getKey());
 
         return result;
     }
+
+    @Override
+    public int hashCode() {
+        int h = treeToList(this.root).hashCode();
+        return h;
+    }
+
+
+
+
 }
 
 

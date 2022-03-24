@@ -1,6 +1,7 @@
 package binarySearchTree;
 
 
+import java.util.Objects;
 import java.util.TreeSet;
 
 class Node {
@@ -40,5 +41,17 @@ class Node {
     public boolean isRightChild() {
         return getParent() != null && this == getParent().getRightChild();
     }
+
+//    public boolean equals(Object object) {
+//        if (this == object) {
+//            return true;
+//        }
+//        if (object == null || object.getClass() != getClass()) {
+//            return false;
+//        }
+//        Node other = (Node) object;
+//        return getKey().equals(other.getKey());
+//    }
+
 
 }

@@ -25,10 +25,10 @@ class BinaryTreeTest {
 
     @Test
     void testFunctions2() {
-        BinaryTree newTree = new BinaryTree();              //проверка на поиск соседей происходит с помощью List
-        newTree.insert(5);                              //в листе 4 элемента: 1 - родитель, 2 - текущий
-        newTree.insert(2);                              //3 - левый потомок, 4 - правый потомок;
-        newTree.insert(7);                              //Если элемента нет, то место равно 0
+        BinaryTree newTree = new BinaryTree();
+        newTree.insert(5);
+        newTree.insert(2);
+        newTree.insert(7);
         newTree.insert(1);
         newTree.insert(3);
         newTree.insert(8);
@@ -118,8 +118,9 @@ class BinaryTreeTest {
         newTree2.insert(8);
         newTree2.insert(1);
         newTree2.insert(8);
-        assertEquals(true, newTree1.equals(newTree2));
+        assertEquals(newTree1.hashCode() , newTree2.hashCode());
+        assertEquals(newTree1, newTree2);
         newTree1.delete(1);
-        assertEquals(false, newTree1.equals(newTree2));
+        assertFalse(newTree1.equals(newTree2));
     }
 }
