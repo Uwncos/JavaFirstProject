@@ -32,9 +32,10 @@ class BinaryTreeTest {
         newTree.insert(1);
         newTree.insert(3);
         newTree.insert(8);
-        assertEquals(List.of("5", "2", "1", "3"), newTree.neighbours(2));
-        assertEquals(List.of("7", "8", "empty", "empty"), newTree.neighbours(8));
-        assertEquals(List.of("empty", "5", "2", "7"), newTree.neighbours(5));
+
+//        assertEquals(List.of("5", "2", "1", "3"), newTree.neighbours(2));
+//        assertEquals(List.of("7", "8", "empty", "empty"), newTree.neighbours(8));
+//        assertEquals(List.of("empty", "5", "2", "7"), newTree.neighbours(5));
 
         //проверка перестановки при удалении:
         newTree.delete(2);
@@ -73,13 +74,14 @@ class BinaryTreeTest {
         newTree.insert(50);
         newTree.insert(55);
         newTree.delete(2);
+
         assertEquals(List.of("22", "5", "1", "7"), newTree.neighbours(5));
         newTree.delete(56);
         assertEquals(List.of("22", "60", "23", "66"), newTree.neighbours(60));
         newTree.delete(22);
         assertEquals(List.of("empty", "23", "5", "60"), newTree.neighbours(23));
         newTree.delete(21);
-     //   assertEquals(List.of("7", "9", "8", "empty"), newTree.neighbours(9));
+        assertEquals(List.of("7", "9", "8", "empty"), newTree.neighbours(9));
     }
 
 
@@ -88,6 +90,7 @@ class BinaryTreeTest {
         BinaryTree newTree = new BinaryTree();
         newTree.insert(5);
         newTree.insert(5);
+
         assertEquals(List.of("empty", "5", "empty", "empty"), newTree.neighbours(5));
 
         newTree.insert(2);
@@ -97,6 +100,7 @@ class BinaryTreeTest {
         newTree.insert(8);
         newTree.insert(1);
         newTree.insert(8);
+
         assertEquals(List.of("2", "1", "empty", "empty"), newTree.neighbours(1));
     }
 
@@ -118,9 +122,31 @@ class BinaryTreeTest {
         newTree2.insert(8);
         newTree2.insert(1);
         newTree2.insert(8);
+
         assertEquals(newTree1.hashCode() , newTree2.hashCode());
         assertEquals(newTree1, newTree2);
         newTree1.delete(1);
         assertFalse(newTree1.equals(newTree2));
     }
+
+    @Test
+    void getParentTest() {
+        BinaryTree newTree1 = new BinaryTree();
+        newTree1.insert(2);
+        newTree1.insert(7);
+        newTree1.insert(1);
+        newTree1.insert(3);
+        newTree1.insert(8);
+        newTree1.insert(1);
+        newTree1.insert(8);
+
+        assertEquals(2, newTree1.find(7).getParent().getKey());
+        assertEquals(7, newTree1.find(8).getParent().getKey());
+        assertEquals(2, newTree1.find(1).getParent().getKey());
+
+        newTree1.delete(7);
+
+        assertEquals(8, newTree1.find(3).getParent().getKey());
+    }
+
 }

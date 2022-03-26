@@ -38,30 +38,37 @@ public class BinaryTree {
         Node current = root;
         Node parent = null;
 
-        while (current.getKey() != key) {
-            parent = current;
-            if (key < current.getKey()) {
-                current = current.getLeftChild();
-            } else {
-                current = current.getRightChild();
-            }
-            if (current == null) {
-                return null;
-            }
+        current = find(key);
+        if (current == null) {
+            return null;
         }
+        parent = current.getParent();
+
+
+//        while (current.getKey() != key) {
+//            parent = current;
+//            if (key < current.getKey()) {
+//                current = current.getLeftChild();
+//            } else {
+//                current = current.getRightChild();
+//            }
+//            if (current == null) {
+//                return null;
+//            }
+//        }
+
         LinkedList<String> nodeNeighbours = new LinkedList<>();
 
         if (parent != null) {
             nodeNeighbours.add("" + parent.getKey());  //если есть ставим key
         } else {
-            nodeNeighbours.add("empty");           //если нет, ставим 0
+            nodeNeighbours.add("empty");
         }
 
         nodeNeighbours.add("" + current.getKey());
 
         if (current.getLeftChild() != null) {
-            int a = current.getLeftChild().getKey();
-            nodeNeighbours.add("" + a);
+            nodeNeighbours.add("" + current.getLeftChild().getKey());
         } else {
             nodeNeighbours.add("empty");
         }
@@ -80,6 +87,7 @@ public class BinaryTree {
 
         if (root == null) {
             root = nextNode;
+            nextNode.setParent(null);          //fixes
         } else {
             Node current = root;
             Node parent;
@@ -87,17 +95,18 @@ public class BinaryTree {
                 return;
             }
             while (true) {
-                parent = current;
+                nextNode.setParent(current);
                 if (key < current.getKey()) {
                     current = current.getLeftChild();
+
                     if (current == null) {
-                        parent.setLeftChild(nextNode);
+                        nextNode.getParent().setLeftChild(nextNode);
                         return;
                     }
                 } else {
                     current = current.getRightChild();
                     if (current == null) {
-                        parent.setRightChild(nextNode);
+                        nextNode.getParent().setRightChild(nextNode);
                         return;
                     }
                 }
@@ -106,40 +115,28 @@ public class BinaryTree {
     }
 
     public boolean delete(int key) {
-        Node current = root;
+        Node current = find(key);
         Node parent = root;
 
         boolean isLeft = true;
 
-        if (key < current.getKey()) {
-        } else {
-            isLeft = false;
-        }
         if (current == null) {
             return false;
         }
-        while (current.getKey() != key) {      //search
-            parent = current;
 
-            if (key < current.getKey()) {
-                isLeft = true;
-                current = current.getLeftChild();
-            } else {
-                isLeft = false;
-                current = current.getRightChild();
-            }
-            if (current == null) {
-                return false;
-            }
-        }
-        if (current.getRightChild() == null && current.getLeftChild() == null) { //Node Is A Leaf Node
+        parent = current.getParent();
+        isLeft = current.isLeftChild();
+
+        if (current.getRightChild() == null && current.getLeftChild() == null) { //Node Is A Leaf
             if (current == root) {
                 root = null;
             } else if (isLeft) {
                 parent.setLeftChild(null);
+
             } else {
                 parent.setRightChild(null);
             }
+
         } else if (current.getRightChild() == null) {
             if (current == root) {
                 root = current.getLeftChild();
@@ -148,24 +145,31 @@ public class BinaryTree {
             } else {
                 parent.setRightChild(current.getLeftChild());
             }
+
         } else if (current.getLeftChild() == null) {
             if (current == root) {
                 root = current.getRightChild();
             } else if (isLeft) {
                 parent.setLeftChild(current.getRightChild());
             } else {
-                parent.setLeftChild(current.getRightChild());
+                parent.setRightChild(current.getRightChild());
             }
+
         } else {      //two child
             Node successor = getSuccessor(current);
             if (current == root) {
                 root = successor;
             } else if (isLeft) {
                 parent.setLeftChild(successor);
+//                current.getLeftChild().setParent(successor);
+//                current.getRightChild().setParent(successor);
+
             } else {
                 parent.setRightChild(successor);
+//                current.getLeftChild().setParent(successor);
+//                current.getRightChild().setParent(successor);
             }
-            successor.setLeftChild(current.getLeftChild());
+          //  successor.setParent(current.getParent());
         }
         return true;
     }
@@ -184,7 +188,7 @@ public class BinaryTree {
             current = current.getLeftChild();
         }
         if (successor != heir.getRightChild()) {
-            successorParent.setRightChild(successor.getRightChild());
+            successorParent.setLeftChild(successor.getRightChild());
             successor.setRightChild(heir.getRightChild());
         }
         return successor;
