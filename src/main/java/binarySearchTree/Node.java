@@ -1,9 +1,6 @@
 package binarySearchTree;
 
 
-import java.util.Objects;
-import java.util.TreeSet;
-
 class Node {
     private int key;
     private Node rightChild;
