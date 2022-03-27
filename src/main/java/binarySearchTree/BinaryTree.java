@@ -19,7 +19,7 @@ public class BinaryTree {
         root = null;
     }
 
-    public Node find(int key) {
+    Node find(int key) {
         Node current = root;
         while (current.getKey() != key) {
             if (key < current.getKey()) {
@@ -34,9 +34,9 @@ public class BinaryTree {
         return current;
     }
 
-    public List<String> neighbours(int key) {
-        Node current = root;
-        Node parent = null;
+    List<String> neighbours(int key) {
+        Node current;
+        Node parent;
 
         current = find(key);
         if (current == null) {
@@ -68,7 +68,7 @@ public class BinaryTree {
     }
 
 
-    public void insert(int key) {
+    void insert(int key) {
         Node nextNode = new Node();
         nextNode.setKey(key);
 
@@ -100,7 +100,7 @@ public class BinaryTree {
         }
     }
 
-    public boolean delete(int key) {
+    boolean delete(int key) {
         Node current = find(key);
 //        Node current = root;
         Node parent = root;
@@ -220,8 +220,6 @@ public class BinaryTree {
         int h = treeToList(this.root).hashCode();
         return h;
     }
-
-
 }
 
 
